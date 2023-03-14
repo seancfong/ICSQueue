@@ -1,10 +1,14 @@
-import React from "react";
+import { motion } from "framer-motion";
+import React, { useState } from "react";
 
 type Props = {};
 
 const HomeCard = (props: Props) => {
+  const [idInput, setIdInput] = useState("");
+  const [roomInput, setRoomInput] = useState("");
+
   return (
-    <div className="w-[36rem] h-[26rem] bg-[#FDFDFD] bg-opacity-70 shadow-[0_8px_16px_rgba(0,0,0,0.15)] rounded-2xl flex flex-col justify-center items-center">
+    <div className="w-[36rem] h-[28rem] bg-[#FDFDFD] bg-opacity-70 shadow-[0_8px_16px_rgba(0,0,0,0.15)] rounded-2xl flex flex-col justify-center items-center">
       {/* Title */}
       <h3 className="text-3xl">Enter in the queue</h3>
 
@@ -15,7 +19,11 @@ const HomeCard = (props: Props) => {
         </div>
         <input
           type="text"
-          className="bg-[#f0f0f0] w-full h-[48px] rounded-sm outline-none focus:border-2 focus:border-slate-300 focus:border-l-uciyellow focus:border-l-4 transition duration-500 pl-3 focus:pl-2 tracking-wider font-inter text-gray-600"
+          className="bg-[#f0f0f0] w-full h-[48px] rounded-sm outline-none focus:border-2 focus:border-slate-300 focus:border-l-uciyellow focus:border-l-4 transition duration-500 pl-5 focus:pl-4 tracking-wider font-inter text-gray-600"
+          value={idInput}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setIdInput(e.currentTarget.value)
+          }
         />
       </div>
 
@@ -26,14 +34,20 @@ const HomeCard = (props: Props) => {
         </div>
         <input
           type="text"
-          className="bg-[#f0f0f0] w-full h-[48px] rounded-sm outline-none focus:border-2 focus:border-slate-300 focus:border-l-uciyellow focus:border-l-4 transition duration-500 pl-3 focus:pl-2 tracking-wider font-inter text-gray-600 uppercase"
+          className="bg-[#f0f0f0] w-full h-[48px] rounded-sm outline-none focus:border-2 focus:border-slate-300 focus:border-l-uciyellow focus:border-l-4 transition duration-500 pl-5 focus:pl-4 tracking-wider font-inter text-gray-600 uppercase"
+          value={roomInput}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setRoomInput(e.currentTarget.value)
+          }
         />
       </div>
 
       {/* Submit button */}
-      <button className="mt-8 bg-gradient-to-r from-[rgba(255,210,0,0.8)] to-[rgba(247,166,45,0.8)] w-[25rem] h-14 rounded-lg">
-        <span className="text-lightblue text-xl font-medium">Submit</span>
-      </button>
+      <div className="mt-8 bg-gradient-to-r from-[rgba(255,210,0,0.8)] to-[rgba(247,166,45,0.8)] w-[25rem] h-14 rounded-lg">
+        <button className="w-full h-full">
+          <span className="text-lightblue text-xl font-medium">Submit</span>
+        </button>
+      </div>
     </div>
   );
 };
