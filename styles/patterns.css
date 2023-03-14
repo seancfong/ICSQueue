@@ -1,0 +1,7 @@
+.dot-texture {
+  background-image: radial-gradient(
+    rgba(150, 154, 160, 0.5) 1.2px,
+    rgba(0, 0, 0, 0) 1px
+  );
+  background-size: 30px 30px;
+}
