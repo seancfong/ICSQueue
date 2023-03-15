@@ -1,21 +1,79 @@
 import React, { useEffect, useState } from "react";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  QuerySnapshot,
+  setDoc,
+  where,
+  serverTimestamp,
+} from "firebase/firestore";
 import { UserAuth } from "@/lib/context/AuthContext";
+import { db } from "@/lib/utils/firebase";
+import { useRouter } from "next/router";
 
 type Props = {};
 
 const HomeCard = (props: Props) => {
-  const { user } = UserAuth();
+  const router = useRouter();
+  const { user, DEBUG } = UserAuth();
 
   const [nameInput, setNameInput] = useState(user?.displayName ?? "");
   const [roomInput, setRoomInput] = useState("");
 
-  // const collectionRef = collection(db, "rooms");
+  const collectionRef = collection(db, "rooms");
 
-  const handleSubmit = () => {
-    console.log(nameInput, roomInput.toUpperCase());
+  const handleSubmit = async (event: React.FormEvent) => {
+    // console.log(nameInput, roomInput.toUpperCase());
 
-    // const docRef = doc(db, "rooms", "TEST");
+    // Prevent form from refreshing the browser
+    event.preventDefault();
+
+    // Create query for checking room validity
+    const roomQuery = query(
+      collectionRef,
+      where("name", "==", roomInput.toUpperCase())
+    );
+    const snapshot: QuerySnapshot = await getDocs(roomQuery);
+    const [room] = snapshot.docs;
+
+    if (room && user.email) {
+      // Room exists
+      console.log("Room found", room.id);
+
+      // Check if user exists already
+      const queueCollection = collection(db, `rooms/${room.id}/queued`);
+      const queueQuery = query(
+        queueCollection,
+        where("email", "==", user.email)
+      );
+
+      const presentQueue = await getDocs(queueQuery);
+
+      if (presentQueue.docs.length > 0) {
+        // User is present in queue, router push early
+        router.push("/room/" + room.id);
+      } else {
+        // Add the user to the room
+        const queueRef = doc(
+          db,
+          `rooms/${room.id}/queued`,
+          DEBUG ? nameInput : user.email
+        );
+
+        const userData = {
+          fullName: nameInput,
+          email: DEBUG ? nameInput : user.email,
+          createdAt: serverTimestamp(),
+        };
+        await setDoc(queueRef, userData);
+
+        router.push("/room/" + room.id);
+      }
+    } else {
+      console.log("Room not found");
+    }
   };
 
   return (

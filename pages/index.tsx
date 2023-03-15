@@ -2,9 +2,15 @@ import Head from "next/head";
 import HomeCard from "@/components/homeCard/HomeCard";
 import SigninCard from "@/components/SigninCard";
 import { UserAuth } from "@/lib/context/AuthContext";
+import { useEffect } from "react";
+import { db } from "@/lib/utils/firebase";
 
 export default function Home() {
-  const { user, logOut } = UserAuth();
+  const { user } = UserAuth();
+
+  useEffect(() => {
+    // if user is already in queue, place them there
+  }, []);
 
   return (
     <>

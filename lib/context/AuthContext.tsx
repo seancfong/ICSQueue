@@ -11,6 +11,7 @@ import { auth } from "@/lib/utils/firebase";
 import React from "react";
 
 interface AuthContextInterface {
+  DEBUG: boolean;
   googleSignIn: () => void;
   logOut: () => void;
   user: User;
@@ -25,6 +26,7 @@ type Props = {
 
 export const AuthContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState<any>({});
+  const DEBUG = false;
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
@@ -47,7 +49,7 @@ export const AuthContextProvider = ({ children }: Props) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ googleSignIn, logOut, user }}>
+    <AuthContext.Provider value={{ googleSignIn, logOut, user, DEBUG }}>
       {children}
     </AuthContext.Provider>
   );
