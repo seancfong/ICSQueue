@@ -17,6 +17,7 @@ import {
 import { UserAuth } from "@/lib/context/AuthContext";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { BsCheckCircle } from "react-icons/bs";
 
 type Props = {
   roomId: string | undefined;
@@ -83,13 +84,13 @@ const RoomCard = ({ roomId }: Props) => {
     subscribeData();
   }, [roomId, user]);
 
-  const handleLeave = async () => {
+  const handleLeave = () => {
     const userRef = doc(db, `rooms/${roomId}/queued`, user.email ?? "");
     console.log(userRef);
-    await deleteDoc(userRef);
-
-    console.log("leaving queue");
-    router.push("/");
+    deleteDoc(userRef).then(() => {
+      console.log("leaving queue");
+      router.push("/");
+    });
   };
 
   return (
@@ -114,18 +115,19 @@ const RoomCard = ({ roomId }: Props) => {
         <div className="flex flex-col items-center">
           <p className="text-lg">Current position:</p>
           <div className="w-28 h-20 bg-gradient-to-r from-[rgba(255,210,0,0.8)] to-[rgba(247,166,45,0.8)]  rounded-md flex justify-center items-center">
-            <p className="text-5xl">{offQueue ? "-" : queuePosition}</p>
+            <p className="text-5xl">
+              {offQueue ? <BsCheckCircle /> : queuePosition}
+            </p>
           </div>
         </div>
 
         {/* Leave queue option */}
-        <a
-          href="/"
+        <button
           className="underline text-red font-medium"
           onClick={handleLeave}
         >
           Leave Queue
-        </a>
+        </button>
       </div>
     </>
   );

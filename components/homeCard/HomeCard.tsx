@@ -69,7 +69,9 @@ const HomeCard = (props: Props) => {
         };
         await setDoc(queueRef, userData);
 
-        router.push("/room/" + room.id);
+        if (!DEBUG) {
+          router.push("/room/" + room.id);
+        }
       }
     } else {
       console.log("Room not found");

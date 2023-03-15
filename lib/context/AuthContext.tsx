@@ -7,14 +7,22 @@ import {
   onAuthStateChanged,
   User,
 } from "firebase/auth";
-import { auth } from "@/lib/utils/firebase";
+import { auth, db } from "@/lib/utils/firebase";
 import React from "react";
+import {
+  collection,
+  getDocs,
+  query,
+  QuerySnapshot,
+  where,
+} from "firebase/firestore";
 
 interface AuthContextInterface {
   DEBUG: boolean;
   googleSignIn: () => void;
   logOut: () => void;
   user: User;
+  isAdmin: boolean | null;
 }
 
 // @ts-ignore
@@ -26,6 +34,7 @@ type Props = {
 
 export const AuthContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState<any>({});
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const DEBUG = false;
 
   const googleSignIn = () => {
@@ -36,6 +45,28 @@ export const AuthContextProvider = ({ children }: Props) => {
   const logOut = () => {
     signOut(auth);
   };
+
+  const adminCollection = collection(db, "admin");
+
+  useEffect(() => {
+    const queryAdmin = async () => {
+      const adminQuery = query(
+        adminCollection,
+        where("email", "==", user?.email ?? "")
+      );
+      const adminDocs: QuerySnapshot = await getDocs(adminQuery);
+
+      console.log(adminDocs.docs);
+
+      if (adminDocs.docs.length > 0) {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
+    };
+
+    queryAdmin();
+  }, [user?.email]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -49,7 +80,9 @@ export const AuthContextProvider = ({ children }: Props) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ googleSignIn, logOut, user, DEBUG }}>
+    <AuthContext.Provider
+      value={{ googleSignIn, logOut, user, isAdmin, DEBUG }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -4,13 +4,16 @@ import { TbUserCircle, TbLogout } from "react-icons/tb";
 import { AiFillWarning } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
 import parseEmail from "@/lib/utils/parseEmail";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 type Props = {};
 
 const Header = (props: Props) => {
-  const { user, logOut } = UserAuth();
+  const { user, logOut, isAdmin } = UserAuth();
   const { netId, isUCI } = parseEmail(user?.email);
   const [showLogout, setShowLogout] = useState<boolean>(false);
+  const router = useRouter();
 
   console.log(netId, isUCI);
 
@@ -25,9 +28,19 @@ const Header = (props: Props) => {
 
   return (
     <div className="sticky font-primary w-full flex justify-center items-center py-3 top-0 z-50 bg-gradient-to-l from-[#0064a4] to-[#1b3d6d] shadow-lg">
-      <a href="/" className="text-3xl text-white font-normal">
-        ICS Queue
-      </a>
+      {/* Title */}
+      <Link href="/" className="text-3xl text-white font-normal">
+        <h1>ICS Queue</h1>
+      </Link>
+
+      {/* Admin */}
+      {isAdmin && (
+        <div className="absolute left-0 top-0 h-full flex flex-col justify-center items-center pl-16 text-white">
+          <Link href="/admin">Manage</Link>
+        </div>
+      )}
+
+      {/* Username */}
       {user?.displayName && (
         <div className="absolute right-0 top-0 h-full flex flex-col justify-center items-center pr-16 text-white">
           <button
