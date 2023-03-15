@@ -1,11 +1,43 @@
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { db } from "@/lib/utils/firebase";
+import {
+  collection,
+  DocumentData,
+  getDocs,
+  QuerySnapshot,
+} from "firebase/firestore";
 
 type Props = {
   roomName: string | string[] | undefined;
 };
 
 const RoomCard = ({ roomName }: Props) => {
+  console.log(roomName);
+
+  // Get room collection ref
+  const collectionRef = collection(db, "rooms");
+
+  useEffect(() => {
+    // Get collection data
+    getDocs(collectionRef)
+      .then((snapshot: QuerySnapshot) => {
+        let rooms: Array<DocumentData> = [];
+
+        snapshot.docs.forEach((doc: any) => {
+          rooms.push({
+            ...doc.data(),
+            id: doc.id,
+          });
+        });
+
+        console.log(rooms);
+      })
+      .catch((err: Error) => {
+        console.log(err.message);
+      });
+  });
+
   return (
     <div className="w-[36rem] h-[28rem] bg-[#FDFDFD] bg-opacity-70 shadow-[0_8px_16px_rgba(0,0,0,0.15)] rounded-2xl flex flex-col justify-center items-center font-primary gap-5">
       {/* Title */}

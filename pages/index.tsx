@@ -1,7 +1,11 @@
 import Head from "next/head";
 import HomeCard from "@/components/homeCard/HomeCard";
+import SigninCard from "@/components/SigninCard";
+import { UserAuth } from "@/lib/context/AuthContext";
 
 export default function Home() {
+  const { user, logOut } = UserAuth();
+
   return (
     <>
       <Head>
@@ -13,7 +17,7 @@ export default function Home() {
       <main className="font-primary dot-texture h-[calc(100vh-60px)] w-full">
         {/* Body container */}
         <div className="w-full h-full flex justify-center items-center">
-          <HomeCard />
+          {user?.displayName ? <HomeCard /> : <SigninCard />}
         </div>
       </main>
     </>
