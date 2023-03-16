@@ -5,3 +5,7 @@
   );
   background-size: 30px 30px;
 }
+
+.bg-texture {
+  background-image: url("/backgroundgray.jpg");
+}

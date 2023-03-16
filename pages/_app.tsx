@@ -7,7 +7,7 @@ import { AuthContextProvider } from "@/lib/context/AuthContext";
 
 const raleway = Raleway({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "800"],
 });
 
 const inter = Inter({

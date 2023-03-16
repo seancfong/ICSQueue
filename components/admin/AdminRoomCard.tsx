@@ -90,19 +90,19 @@ const AdminRoomCard = ({ roomId }: Props) => {
       <Head>
         <title>Watching {roomName}</title>
       </Head>
-      <div className="w-[36rem] h-[28rem] bg-[#FDFDFD] bg-opacity-70 shadow-[0_8px_16px_rgba(0,0,0,0.15)] rounded-2xl flex flex-col items-center font-primary gap-5 overflow-y-scroll gray-scrollbar pt-10">
+      <div className="w-[90vw] sm:w-[36rem] h-[28rem] bg-[#FDFDFD] bg-opacity-70 shadow-[0_8px_16px_rgba(0,0,0,0.15)] rounded-2xl flex flex-col items-center font-primary gap-5 overflow-y-scroll gray-scrollbar pt-10">
         {/* Title */}
-        <h3 className="text-3xl">
+        <h3 className="text-3xl px-10 md:px-0 text-center">
           {queuedUsers.length} currently in {roomName}
         </h3>
 
-        <ol className="list-decimal flex flex-col gap-3 w-full px-10">
+        <ol className="list-decimal flex flex-col gap-3 w-full px-5 md:px-10">
           {queuedUsers.map(({ data: user, id }, i: number) => {
             return (
               <li
                 key={id}
                 className={
-                  "w-full h-10 rounded-md flex justify-center items-center gap-2 relative bg-opacity-30 " +
+                  "w-full h-min sm:h-10 py-1 sm:py-3 rounded-md flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 relative bg-opacity-30 " +
                   (hoveredItem == user?.email
                     ? "bg-gradient-to-r from-[rgba(255,210,0,0.6)] to-[rgba(247,166,45,0.7)]"
                     : "bg-slate-300")

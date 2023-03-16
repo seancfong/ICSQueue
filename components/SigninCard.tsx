@@ -16,13 +16,13 @@ const SigninCard = (props: Props) => {
   };
 
   return (
-    <div className="w-[36rem] h-[28rem] bg-[#FDFDFD] bg-opacity-70 shadow-[0_8px_16px_rgba(0,0,0,0.15)] rounded-2xl flex flex-col justify-center items-center gap-5">
+    <div className="w-[90vw] sm:w-[36rem] h-[28rem] bg-[#FDFDFD] bg-opacity-70 shadow-[0_8px_16px_rgba(0,0,0,0.15)] rounded-2xl flex flex-col justify-center items-center gap-5">
       {/* Title */}
-      <h3 className="text-3xl">Welcome to the ICS Queue</h3>
+      <h3 className="text-3xl px-10 text-center">Welcome to the ICS Queue</h3>
 
       {/* UCInetID label */}
       <button
-        className="bg-[#fafafa] w-[20rem] border-gray-300 border-2 hover:border-gray-500 transition duration-300 h-14 rounded-lg flex justify-center items-center gap-3"
+        className="bg-[#fafafa] w-[80%] sm:w-[20rem] max-w-sm border-gray-300 border-2 hover:border-gray-500 transition duration-300 h-14 rounded-lg flex justify-center items-center gap-3"
         onClick={handleGoogleSignin}
       >
         <span className="text-3xl">

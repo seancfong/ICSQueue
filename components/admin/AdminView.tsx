@@ -38,7 +38,7 @@ const AdminView = (props: Props) => {
     queryAllRooms();
   }, []);
   return (
-    <div className="w-[30rem] h-[30rem] bg-[#FDFDFD] bg-opacity-70 shadow-[0_8px_16px_rgba(0,0,0,0.15)] rounded-2xl p-5 flex flex-col items-center overflow-y-scroll gray-scrollbar">
+    <div className="w-[90vw] sm:w-[30rem] h-[30rem] bg-[#FDFDFD] bg-opacity-70 shadow-[0_8px_16px_rgba(0,0,0,0.15)] rounded-2xl p-5 flex flex-col items-center overflow-y-scroll gray-scrollbar">
       <h3 className="text-2xl">All Rooms</h3>
       <ul className="w-full h-full p-2 flex flex-col gap-2">
         {rooms.map(({ id, data }: roomType, i: number) => {

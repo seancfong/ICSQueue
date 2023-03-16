@@ -18,6 +18,7 @@ import { UserAuth } from "@/lib/context/AuthContext";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { BsCheckCircle } from "react-icons/bs";
+import LoadingDots from "../LoadingDots";
 
 type Props = {
   roomId: string | undefined;
@@ -25,6 +26,7 @@ type Props = {
 
 const RoomCard = ({ roomId }: Props) => {
   const [roomName, setRoomName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [queuePosition, setQueuePosition] = useState(0);
   const [offQueue, setOffQueue] = useState(false);
   const { user, DEBUG } = UserAuth();
@@ -67,6 +69,7 @@ const RoomCard = ({ roomId }: Props) => {
 
             if (data?.email == user.email) {
               found = true;
+              setFullName(data?.fullName);
             }
 
             if (!found) {
@@ -100,14 +103,17 @@ const RoomCard = ({ roomId }: Props) => {
           [{queuePosition}] in {roomName}
         </title>
       </Head>
-      <div className="w-[36rem] h-[28rem] bg-[#FDFDFD] bg-opacity-70 shadow-[0_8px_16px_rgba(0,0,0,0.15)] rounded-2xl flex flex-col justify-center items-center font-primary gap-5">
+      <div className="w-[90vw] sm:w-[36rem] h-[28rem] bg-[#FDFDFD] bg-opacity-70 shadow-[0_8px_16px_rgba(0,0,0,0.15)] rounded-2xl flex flex-col justify-center items-center font-primary gap-5">
         {/* Title */}
-        <h3 className="text-3xl">Waiting in {roomName}</h3>
+        <div className="flex flex-col items-center">
+          <h3 className="text-3xl">Waiting in {roomName}</h3>
+          <LoadingDots />
+        </div>
 
         {/* UCInetID label */}
-        <div className="bg-slate-200 bg-opacity-80  w-[25rem] h-14 rounded-lg flex justify-center items-center">
-          <p className="text-lightblue text-xl font-medium">
-            <span className="font-semibold">Name:</span> {user?.displayName}
+        <div className="bg-slate-200 bg-opacity-80 w-[80vw] md:w-[25rem] max-w-sm h-12 md:h-14 rounded-lg flex justify-center items-center">
+          <p className="text-lightblue text-lg md:text-xl font-medium">
+            <span className="font-semibold">Name:</span> {fullName}
           </p>
         </div>
 
