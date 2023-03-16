@@ -114,7 +114,7 @@ const RoomCard = ({ roomId }: Props) => {
         {/* Current position */}
         <div className="flex flex-col items-center">
           <p className="text-lg">Current position:</p>
-          <div className="w-28 h-20 bg-gradient-to-r from-[rgba(255,210,0,0.8)] to-[rgba(247,166,45,0.8)]  rounded-md flex justify-center items-center">
+          <div className="w-28 h-20 bg-gradient-to-r from-[rgba(255,210,0,0.8)] to-[rgba(247,166,45,0.8)] rounded-md flex justify-center items-center">
             <p className="text-5xl">
               {offQueue ? <BsCheckCircle /> : queuePosition}
             </p>

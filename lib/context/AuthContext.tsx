@@ -35,7 +35,7 @@ type Props = {
 export const AuthContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState<any>({});
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const DEBUG = false;
+  const DEBUG = process.env.NEXT_PUBLIC_IS_DEBUG == "true" || false;
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
@@ -56,7 +56,7 @@ export const AuthContextProvider = ({ children }: Props) => {
       );
       const adminDocs: QuerySnapshot = await getDocs(adminQuery);
 
-      console.log(adminDocs.docs);
+      // console.log(adminDocs.docs);
 
       if (adminDocs.docs.length > 0) {
         setIsAdmin(true);
@@ -71,7 +71,7 @@ export const AuthContextProvider = ({ children }: Props) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log("user", currentUser);
+      // console.log("user", currentUser);
     });
 
     return () => {
