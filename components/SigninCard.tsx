@@ -18,7 +18,9 @@ const SigninCard = (props: Props) => {
   return (
     <div className="w-[90vw] sm:w-[36rem] h-[28rem] bg-[#FDFDFD] bg-opacity-70 shadow-[0_8px_16px_rgba(0,0,0,0.15)] rounded-2xl flex flex-col justify-center items-center gap-5">
       {/* Title */}
-      <h3 className="text-3xl px-10 text-center">Welcome to the ICS Queue</h3>
+      <h3 className="text-3xl px-10 text-center">
+        Welcome to the Virtual Queue
+      </h3>
 
       {/* UCInetID label */}
       <button
@@ -28,7 +30,9 @@ const SigninCard = (props: Props) => {
         <span className="text-3xl">
           <FcGoogle />
         </span>
-        <p className="text-gray-700 text-xl font-medium">Sign in with UCI</p>
+        <p className="text-gray-700 text-xl font-medium">
+          Sign in with .edu domain
+        </p>
       </button>
     </div>
   );

@@ -35,9 +35,9 @@ const Header = (props: Props) => {
         className="text-2xl text-white font-normal flex items-center gap-1"
       >
         <span className="font-extrabold tracking-wider text-3xl hidden md:block">
-          UCI
+          ICS
         </span>
-        <h1>ICS Queue</h1>
+        <h1>Virtual Queue</h1>
       </Link>
 
       {/* Admin */}
