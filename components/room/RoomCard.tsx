@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { BsCheckCircle } from "react-icons/bs";
 import LoadingDots from "../LoadingDots";
+import { useLocalStorage } from "react-use";
 
 type Props = {
   roomId: string | undefined;
@@ -31,6 +32,10 @@ const RoomCard = ({ roomId }: Props) => {
   const [offQueue, setOffQueue] = useState(false);
   const { user, DEBUG } = UserAuth();
   const router = useRouter();
+  const [prevQueue, setPrevQueue, removePrevQueue] = useLocalStorage(
+    "prevqueue",
+    ""
+  );
 
   // Get room collection ref
   const collectionRef = collection(db, "rooms");
@@ -49,6 +54,7 @@ const RoomCard = ({ roomId }: Props) => {
         if (data) {
           const { name } = data;
           setRoomName(name);
+          setPrevQueue(name);
         }
 
         // Then subscribe to the room's queue
@@ -91,6 +97,7 @@ const RoomCard = ({ roomId }: Props) => {
     const userRef = doc(db, `rooms/${roomId}/queued`, user.email ?? "");
     console.log(userRef);
     deleteDoc(userRef).then(() => {
+      removePrevQueue();
       console.log("leaving queue");
       router.push("/");
     });

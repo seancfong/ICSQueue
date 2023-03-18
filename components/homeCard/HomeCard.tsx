@@ -8,10 +8,14 @@ import {
   setDoc,
   where,
   serverTimestamp,
+  DocumentSnapshot,
+  collectionGroup,
+  orderBy,
 } from "firebase/firestore";
 import { UserAuth } from "@/lib/context/AuthContext";
 import { db } from "@/lib/utils/firebase";
 import { useRouter } from "next/router";
+import { useLocalStorage } from "react-use";
 
 type Props = {};
 
@@ -22,7 +26,18 @@ const HomeCard = (props: Props) => {
   const [nameInput, setNameInput] = useState(user?.displayName ?? "");
   const [roomInput, setRoomInput] = useState("");
 
+  const [prevQueue, setPrevQueue, removePrevQueue] = useLocalStorage(
+    "prevqueue",
+    ""
+  );
+
   const collectionRef = collection(db, "rooms");
+
+  useEffect(() => {
+    if (prevQueue) {
+      setRoomInput(prevQueue.toUpperCase());
+    }
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     // console.log(nameInput, roomInput.toUpperCase());
@@ -55,19 +70,19 @@ const HomeCard = (props: Props) => {
         // User is present in queue, router push and don't add again
         router.push("/room/" + room.id);
       } else {
+        console.log("joining new queue");
         // Add the user to the room
-        const queueRef = doc(
-          db,
-          `rooms/${room.id}/queued`,
-          DEBUG ? nameInput : user.email
-        );
+        const queueRef = doc(db, `rooms/${room.id}/queued`, user.email);
 
         const userData = {
           fullName: nameInput,
-          email: DEBUG ? nameInput : user.email,
+          email: user.email,
           createdAt: serverTimestamp(),
         };
+
         await setDoc(queueRef, userData);
+
+        console.log("saving previous queue");
 
         if (!DEBUG) {
           router.push("/room/" + room.id);
