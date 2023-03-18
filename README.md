@@ -2,6 +2,8 @@
 
 ICS Queue is a virtual queue system built using Next.JS, Typescript, TailwindCSS, and Firebase. It allows students to join a queue and get notified when it's their turn to be served.
 
+The site can be found [live over here](https://ics-queue.vercel.app).
+
 By using the `onShapshot` feature with Firebase, users can get real-time updates with the database without having to refresh their pages.
 
 ## Features
