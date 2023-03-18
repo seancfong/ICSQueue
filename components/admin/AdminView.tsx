@@ -6,12 +6,16 @@ import {
   DocumentSnapshot,
   getDocs,
   onSnapshot,
+  orderBy,
+  query,
   QuerySnapshot,
+  serverTimestamp,
 } from "firebase/firestore";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface roomData {
   name: string;
@@ -28,7 +32,9 @@ const AdminView = (props: Props) => {
   const [rooms, setRooms] = useState<Array<roomType>>([]);
   const [formInput, setFormInput] = useState<string>("");
   const [roomInput, setRoomInput] = useState<boolean>(false);
+
   const roomCollection = collection(db, "rooms");
+  const roomQuery = query(roomCollection, orderBy("createdAt"));
 
   const router = useRouter();
 
@@ -49,7 +55,7 @@ const AdminView = (props: Props) => {
     }
 
     const queryAllRooms = async () => {
-      onSnapshot(roomCollection, (snapshotDocs: QuerySnapshot) => {
+      onSnapshot(roomQuery, (snapshotDocs: QuerySnapshot) => {
         let roomArray: Array<roomType> = [];
 
         snapshotDocs.forEach((doc: DocumentSnapshot) => {
@@ -70,6 +76,17 @@ const AdminView = (props: Props) => {
     // Add new room doc
     const newRoom = await addDoc(roomRef, {
       name: newRoomName,
+      createdAt: serverTimestamp(),
+    });
+
+    toast.success(`Room ${newRoomName} added.`, {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
     });
   };
 
@@ -115,10 +132,14 @@ const AdminView = (props: Props) => {
                   handleAddRoom(formInput.toUpperCase());
                   setFormInput("");
                 }}
+                className="flex justify-center"
               >
-                <input
+                <motion.input
+                  initial={{ scaleX: 0.2 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 0.7, ease: "easeInOut" }}
                   type="text"
-                  className="bg-transparent outline-none border-0 border-b-2 border-gray-400 font-medium uppercase"
+                  className="bg-transparent outline-none border-0 border-b-2 border-gray-400 font-medium uppercase text-center"
                   value={formInput}
                   onChange={(e: React.FormEvent<HTMLInputElement>) =>
                     setFormInput(e.currentTarget.value)
