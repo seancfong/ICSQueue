@@ -86,6 +86,7 @@ const RoomCard = ({ roomId }: Props) => {
           setQueuePosition(position);
           if (!found) {
             setOffQueue(true);
+            removePrevQueue();
           }
         });
       }

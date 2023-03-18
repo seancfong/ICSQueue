@@ -30,7 +30,7 @@ const HomeCard = (props: Props) => {
   const [roomInput, setRoomInput] = useState("");
 
   const [submitContent, setSubmitContent] = useState<JSX.Element>(
-    <span className="text-lightblue text-xl font-medium">Success</span>
+    <span className="text-lightblue text-xl font-medium">Submit</span>
   );
 
   const [prevQueue, setPrevQueue, removePrevQueue] = useLocalStorage(
