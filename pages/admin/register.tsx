@@ -78,8 +78,8 @@ const Register = (props: Props) => {
               <div className="text-green-600">
                 <p>Successfully registered as admin.</p>
                 <p>
-                  Please refresh the page to see your "Manage" option in the
-                  navbar.
+                  Please refresh the page to see your &quot;Manage&quot; option
+                  in the navbar.
                 </p>
               </div>
             )}

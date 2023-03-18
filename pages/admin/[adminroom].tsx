@@ -139,11 +139,11 @@ const AdminRoom = (props: Props) => {
                   <motion.form layout="position" onSubmit={handleDeleteRoom}>
                     <div className="relative z-40 bg-white">
                       <p className="italic text-gray-500">
-                        Type "
+                        Type &quot;
                         <span className="not-italic font-medium text-black">
                           {roomName}
                         </span>
-                        " to confirm the deletion.
+                        &quot; to confirm the deletion.
                       </p>
                       <input
                         type="text"
