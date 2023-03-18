@@ -9,13 +9,7 @@ import {
 } from "firebase/auth";
 import { auth, db } from "@/lib/utils/firebase";
 import React from "react";
-import {
-  collection,
-  getDocs,
-  query,
-  QuerySnapshot,
-  where,
-} from "firebase/firestore";
+import { collection, doc, DocumentSnapshot, getDoc } from "firebase/firestore";
 
 interface AuthContextInterface {
   DEBUG: boolean;
@@ -34,7 +28,7 @@ type Props = {
 
 export const AuthContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState<any>({});
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const DEBUG = process.env.NEXT_PUBLIC_IS_DEBUG == "true" || false;
 
   const googleSignIn = () => {
@@ -46,22 +40,17 @@ export const AuthContextProvider = ({ children }: Props) => {
     signOut(auth);
   };
 
-  const adminCollection = collection(db, "admin");
-
   useEffect(() => {
     const queryAdmin = async () => {
-      const adminQuery = query(
-        adminCollection,
-        where("email", "==", user?.email ?? "")
-      );
-      const adminDocs: QuerySnapshot = await getDocs(adminQuery);
+      if (user?.email) {
+        const adminDoc = doc(db, "admin", user?.email);
+        const adminDocSnap: DocumentSnapshot = await getDoc(adminDoc);
 
-      // console.log(adminDocs.docs);
-
-      if (adminDocs.docs.length > 0) {
-        setIsAdmin(true);
-      } else {
-        setIsAdmin(false);
+        if (adminDocSnap.exists()) {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
       }
     };
 

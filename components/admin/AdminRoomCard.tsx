@@ -28,10 +28,11 @@ type RoomUsers = {
 
 type Props = {
   roomId: string | undefined;
+  roomName: string;
+  setRoomName: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const AdminRoomCard = ({ roomId }: Props) => {
-  const [roomName, setRoomName] = useState<string>("");
+const AdminRoomCard = ({ roomId, roomName, setRoomName }: Props) => {
   const [queuedUsers, setQueuedUsers] = useState<Array<RoomUsers>>([]);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const { user, DEBUG } = UserAuth();

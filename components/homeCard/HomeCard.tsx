@@ -52,7 +52,7 @@ const HomeCard = (props: Props) => {
       const presentQueue = await getDocs(queueQuery);
 
       if (presentQueue.docs.length > 0) {
-        // User is present in queue, router push early
+        // User is present in queue, router push and don't add again
         router.push("/room/" + room.id);
       } else {
         // Add the user to the room
